@@ -1,0 +1,24 @@
+{
+  "name": "fleur",
+  "version": "0.0.1",
+  "description": "Javascript 3D Flower",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "sm",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sophiamorchen/The-Weaher-App.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sophiamorchen/The-Weaher-App/issues"
+  },
+  "homepage": "https://github.com/sophiamorchen/The-Weaher-App#readme"
+}

@@ -1,0 +1,2 @@
+# Ignorer le dossier node_modules (dépendances)
+node_modules/
