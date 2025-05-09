@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma fleur vivante</title>
+<!-- Il y a des marges par défaut sur les navigateurs, en ajoutant ce reset, on n'aura 
+pas d'espaces blancs +- 10px des bords : -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+        .canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .form {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas js-canvas"></div>
+    <form  class="form js-search-form">
+        <label name="cities" for="cities">
+            Tapez le nom d'une ville
+            <input type="text" autocomplete="on" name="cities" class="js-search-input" id="cities" placeholder="Ville">
+        <button type="submit">Valider</button>
+    </form>
+
+
+    <div class="js-canvas"></div> <script type="importmap">
+        {
+            "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.176.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.176.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script src="app.js" type="module"></script>
+</body>
+</html>

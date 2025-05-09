@@ -1,7 +1,10 @@
 import {Search} from "./modules/Search.js"
+import {Flower} from "./modules/Flower.js"
 console.log("module app")
 
+// Entree de mon programme
 new Search()
+new Flower()
 
 
 

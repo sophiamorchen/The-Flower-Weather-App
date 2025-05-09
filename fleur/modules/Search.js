@@ -1,13 +1,13 @@
 /* Ma barre de recherche va : 
 - [x] : récupérer la ville renseignée par le visiteur
-- [ ] : va aller toruver la lat et la long correspondante 
-- [ ] : à partir du nom de la ville 
-- [ ] : si la ville n'est pas renseignée dans la BDD (json)
-- [ ] : va indiquer l'erreur à l'utilisateur 
+- [x] : va aller trouver la lat et la long correspondante 
+: à partir du nom de la ville 
 
 - Bonus : 
-- [ ] : autocompletion dans les noms de ville
-- [ ] : enregistrer les dernières recherches
+: si la ville n'est pas renseignée dans la BDD (json)
+- [x] : va indiquer l'erreur à l'utilisateur 
+- [x] : autocompletion dans les noms de vill
+- [x] : enregistrer les dernières recherches
 
 le THIS représente la class
 dans ma classe j'ai un objet , 
@@ -15,7 +15,7 @@ et donc ça c'est mon this
 c'est une représentation de ma classe
 c'est le scope, la portée locale (à l'intérieur de ma classe ) de ma classe
 */
-
+import { Wind } from "./Wind.js"
 
 
 class Search {
@@ -70,7 +70,7 @@ class Search {
         if (cityData){
             const lat = cityData.lat
             const lng = cityData.lng
-            console.log(lat, lng)
+            new Wind({lat, lng}) // On instancie la classe Wind avec les coordonnées de la ville
 
         } else {
             alert("Cette ville n'existe pas")
@@ -78,17 +78,18 @@ class Search {
         // 2. si oui: je prend lat long
         // 3. si non: je renvoie une erreur (alert)
         // Pour vérifier, on affiche le nombre de villes chargées et la ville trouvée
-        console.log(this.cities.length) // : Pour s'assurer que le JSON est bien chargé
+        // console.log(this.cities.length) : Pour s'assurer que le JSON est bien chargé
     }
 
     getCities () {
         // Cette méthode va chercher les données des villes via une requête fetch()
 
-        fetch('../data/france-cities.json') // Chemin vers le fichier JSON contenant les villes
+        fetch('../fleur/data/france-cities.json') // Chemin vers le fichier JSON contenant les villes
             .then(response => response.json()) // On convertit la réponse brute en objet JavaScript
             .then(data => {
                 // Une fois les données prêtes, on les stocke dans notre propriété cities
                 this.cities = data
+
             })
     }
 //----------------------------------------
@@ -124,7 +125,6 @@ class Search {
         const cityNameLower = cityName.toLowerCase()
         // cityObject sort d'ou? c'est comme une "key" qu'on crée juste pour cette partie !! SUPER
         const cityData = this.cities.find(cityObject => cityObject.city.toLowerCase() === cityNameLower)
-        console.log(cityData)
         return(cityData)
     }
     //-----------------------------
