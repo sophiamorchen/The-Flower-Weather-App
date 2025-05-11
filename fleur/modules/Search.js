@@ -60,7 +60,8 @@ class Search {
     getLatLong() {
         // Méthode déclenchée lors de la soumission du formulaire
 
-        // On récupère le nom de la ville tapée par l’utilisateur
+        // IMPORTANT : accès à this.input parce que getLatLong() est appelée depuis une fonction fléchée (=>), 
+        // donc le this reste correctement lié à mon objet. sinon this aurait signifié le form! et non l'input
         const name = this.input.value
 
         // On cherche dans le tableau des villes celle qui correspond à ce nom
@@ -70,6 +71,8 @@ class Search {
         if (cityData){
             const lat = cityData.lat
             const lng = cityData.lng
+            window.app.city = name
+            window.app.isNewCitySelected = true // On réinitialise l'animation de la fleur
             new Wind({lat, lng}) // On instancie la classe Wind avec les coordonnées de la ville
 
         } else {

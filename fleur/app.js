@@ -1,6 +1,17 @@
 import {Search} from "./modules/Search.js"
 import {Flower} from "./modules/Flower.js"
-console.log("module app")
+
+
+// on crée un objet "app" dans la variable window qui va permettre 
+// d'enregistrer les info nénéssaires à l'animation de la fleur
+
+window.app = {
+    isNewCitySelected: false,
+    city: "",
+    windDirection: "",
+    windSpeed: ""
+}
+
 
 // Entree de mon programme
 new Search()

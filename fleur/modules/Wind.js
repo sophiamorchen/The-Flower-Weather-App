@@ -25,12 +25,13 @@ https://api.open-meteo.com/v1/forecast?latitude=45.7485&longitude=4.8467&current
         const {lat, lng} = props // destructuration de l'objet props
         this.lat = lat // latitude de la ville
         this.lng = lng // longitude de la ville
+        this.url = "" // url de l'API
         this.init()
         }
     init() {
         this.buildUrl()
         this.getWindData()
-        console.log(this.lat, this.lng)
+
     } 
     buildUrl() {
         // Méthode pour construire l'URL de l'API avec les coordonnées de la ville
@@ -41,14 +42,16 @@ https://api.open-meteo.com/v1/forecast?latitude=45.7485&longitude=4.8467&current
         const concatParams = params.join(',')
         
         this.url = `${base}?${requiredLatitudeParam}&${requiredLongitudeParam}&current=${concatParams}`
-        console.log(this.url)
 
     }
     getWindData(){
         fetch(this.url)
             .then(response => response.json())
             .then((data) => {
-                console.log(data);
+                window.app.windDirection = data.current.wind_direction_10m
+                window.app.windSpeed = data.current.wind_speed_10m
+                console.log("window.app", window.app)
+                console.log("data", data)
         })
     }
 }

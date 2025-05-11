@@ -9,7 +9,10 @@ class Flower {
         this.canvasHeight = window.innerHeight
         this.animate = this.animate.bind(this)
         this.flowerSize = 50
-
+        this.animation = {
+            rotationX: 0,
+            rotationY: 0
+        }
         this.init()
     }
 // fonction qui lance les fonctions d'instanciation de ma classe
@@ -39,9 +42,9 @@ class Flower {
     createCamera() {
         const aspectRatio = this.canvasWidth / this.canvasHeight
         this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000)
-        this.camera.position.z = 100
-        this.camera.position.y = 80
-        this.camera.position.x = 0
+        this.camera.position.z = 150
+        this.camera.position.y = 100
+        this.camera.position.x = 5
     }
     createOrbitControls() {
         this.controls = new OrbitControls( this.camera, this.renderer.domElement );  
@@ -50,21 +53,7 @@ class Flower {
         const axesHelper = new THREE.AxesHelper( 50 )
         this.scene.add( axesHelper )
 
-        const helper = new THREE.CameraHelper( this.camera );
-        this.scene.add( helper );
 
-        // const spotLight = new THREE.SpotLight( 0xffffff );
-        // spotLight.position.set( 10, 10, 10 );
-        // this.scene.add( spotLight );
-
-        // const spotLightHelper = new THREE.SpotLightHelper( spotLight );
-        // this.scene.add( spotLightHelper );
-
-        // const light = new THREE.DirectionalLight( 0xFFFFFF );
-        // this.scene.add( light );
-
-        // const helper1 = new THREE.DirectionalLightHelper( light, 5 );
-        // this.scene.add( helper1 );
     }
     createRender() {
         this.renderer = new THREE.WebGLRenderer()
@@ -81,26 +70,28 @@ class Flower {
         const color = new THREE.Color('rgb(0, 255, 0)')
         const material = new THREE.MeshBasicMaterial( {color: color} )
         const cylinder = new THREE.Mesh( geometry, material )
+        cylinder.position.y = this.flowerSize/2
         this.flowerGroup.add(cylinder)
     }
     createPistil() {
         const geometry = new THREE.SphereGeometry( 4, 32, 16 ); 
         const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } )
         const sphere = new THREE.Mesh( geometry, material )
-        sphere.position.y = this.flowerSize/2
+        sphere.position.y = this.flowerSize
         this.flowerGroup.add( sphere )
     }
     createPetals() { 
         const color = new THREE.Color('rgb(255, 0, 0)')
         const geometry = new THREE.TorusGeometry( 8, 0.5, 16, 100 ); 
         const material = new THREE.MeshBasicMaterial( { color: color } ); 
+
         const positionX = [-5, 0, 5, 0]
         const positionZ = [0, -5, 0, 5]
         const rotationY = [-30, 0, 30, 0]
         const rotationX = [90, 120, 90, 60]
         for (let i = 0 ; i < 4 ; i++) {
             const torus = new THREE.Mesh( geometry, material ); 
-            torus.position.y = this.flowerSize/2
+            torus.position.y = this.flowerSize
             torus.position.x = positionX[i]
             torus.position.z = positionZ[i]
             /*
@@ -124,13 +115,30 @@ class Flower {
     }
 
     animate() {
+        requestAnimationFrame(this.animate)
+        // this.flowerGroup.rotation.y += 0.01
+        this.controls.update()
         /* animation de la fleur : 
         - [] si pas de ville seldctionnée, la fleur tourne sur elle même
         - [] si une ville est sélectionnée, la fleur s'oriente en fonction des donénes API
         */
-        requestAnimationFrame(this.animate)
-        // this.flowerGroup.rotation.y += 0.01
-        this.controls.update()
+        if(window.app.city === "") {
+        this.flowerGroup.rotation.y += 0.01
+        } else {
+            if (window.app.isNewCitySelected === true ) {
+                this.animation.rotationX = 0
+                this.animation.rotationY = 0
+                window.app.isNewCitySelected = false
+            } else {
+                if(this.animation.rotationX < 17 && this.animation.rotationY < 17){
+                    const speed = 0.01 * window.app.windSpeed
+                    this.animation.rotationX += speed
+                    this.animation.rotationY += speed
+                }
+            }
+                this.flowerGroup.rotation.z = THREE.MathUtils.degToRad(this.animation.rotationX)
+                this.flowerGroup.rotation.x = THREE.MathUtils.degToRad(this.animation.rotationY)
+        }
         this.renderer.render(this.scene, this.camera)
     }
 
